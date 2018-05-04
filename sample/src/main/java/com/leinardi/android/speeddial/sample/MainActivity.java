@@ -25,6 +25,7 @@ import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
@@ -36,7 +37,7 @@ import com.leinardi.android.speeddial.sample.usecases.UseCasesActivity;
  * Sample project
  */
 @SuppressWarnings("PMD") // sample project with long methods
-public class MainActivity extends BaseUseCaseActivity {
+public class MainActivity extends BaseUseCaseActivity implements SpeedDialView.OnFabClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int ADD_ACTION_POSITION = 4;
     private SpeedDialView mSpeedDialView;
@@ -46,6 +47,13 @@ public class MainActivity extends BaseUseCaseActivity {
         super.onCreate(savedInstanceState);
         initSpeedDial(savedInstanceState == null);
 
+
+    }
+
+    @Override
+    public void onFabClick() {
+        mSpeedDialView.setOnFabClickListener(null);
+        Toast.makeText(this, "lololol", Toast.LENGTH_SHORT).show();
     }
 
     private void initSpeedDial(boolean addActionItems) {
@@ -104,6 +112,8 @@ public class MainActivity extends BaseUseCaseActivity {
                 Log.d(TAG, "Speed dial toggle state changed. Open = " + isOpen);
             }
         });
+
+        mSpeedDialView.setOnFabClickListener(this);
 
         //Set option fabs clicklisteners.
         mSpeedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {

@@ -639,6 +639,15 @@ public class SpeedDialView extends LinearLayout implements CoordinatorLayout.Att
             attr.recycle();
         }
     }
+    public interface OnFabClickListener {
+        void onFabClick();
+    }
+    @Nullable
+    private OnFabClickListener mOnFabClickListener;
+
+    public void setOnFabClickListener(OnFabClickListener onFabClickListener) {
+        this.mOnFabClickListener = onFabClickListener;
+    }
 
     private FloatingActionButton createMainFab() {
         FloatingActionButton floatingActionButton = new FloatingActionButton(getContext());
@@ -655,6 +664,10 @@ public class SpeedDialView extends LinearLayout implements CoordinatorLayout.Att
         floatingActionButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {
+                if (mOnFabClickListener != null) {
+                    mOnFabClickListener.onFabClick();
+                    return;
+                }
                 if (!isOpen() && !mFabWithLabelViews.isEmpty()) {
                     open();
                 } else {
